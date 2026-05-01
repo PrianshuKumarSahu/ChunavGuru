@@ -70,7 +70,6 @@ class GeminiService {
       } catch (error) {
         lastError = error;
         console.warn(`[GeminiService] Chat attempt ${i + 1} failed:`, error.message);
-        if (i < 2) await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Backoff
       }
     }
     console.error('[GeminiService] All attempts failed:', lastError.message);

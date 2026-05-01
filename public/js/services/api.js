@@ -33,14 +33,23 @@ class ApiService {
     return data.response;
   }
 
-  /** Translate text to target language */
+  /** Translate text(s) to target language */
   async translate(text, targetLanguage) {
-    const response = await this._fetch('/api/translate', {
-      method: 'POST',
-      body: JSON.stringify({ text, targetLanguage }),
-    });
-    const data = await response.json();
-    return data.translatedText;
+    if (Array.isArray(text)) {
+      const response = await this._fetch('/api/translate/batch', {
+        method: 'POST',
+        body: JSON.stringify({ texts: text, targetLanguage }),
+      });
+      const data = await response.json();
+      return data.translatedTexts;
+    } else {
+      const response = await this._fetch('/api/translate', {
+        method: 'POST',
+        body: JSON.stringify({ text, targetLanguage }),
+      });
+      const data = await response.json();
+      return data.translatedText;
+    }
   }
 
   /** Get supported languages */

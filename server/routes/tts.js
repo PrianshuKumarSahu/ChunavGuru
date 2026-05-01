@@ -1,6 +1,5 @@
 const express = require('express');
 const ttsService = require('../services/ttsService');
-const { validate } = require('../middleware/validate');
 const router = express.Router();
 
 /**
@@ -8,9 +7,16 @@ const router = express.Router();
  * Convert text to speech audio (MP3).
  * Body: { text: string, language?: string }
  */
-router.post('/', validate('tts'), async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { text, language } = req.body;
+
+    if (!text || typeof text !== 'string' || text.trim().length === 0) {
+      return res.status(400).json({ error: 'Text is required.' });
+    }
+    if (text.length > 5000) {
+      return res.status(400).json({ error: 'Text must be under 5000 characters.' });
+    }
 
     // Map language code to TTS language code
     const langMap = {
