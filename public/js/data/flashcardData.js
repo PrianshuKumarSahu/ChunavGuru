@@ -1,0 +1,43 @@
+/**
+ * Flashcard data about the Indian Election System.
+ * Each card: id, category, front (term), back (definition/explanation)
+ */
+const FLASHCARD_DATA = [
+  { id: 1, category: 'Key Terms', front: 'Election Commission of India (ECI)', back: 'An autonomous constitutional body established on 25 Jan 1950 under Article 324. It conducts free and fair elections to Parliament, State Legislatures, and offices of President & Vice President.' },
+  { id: 2, category: 'Key Terms', front: 'EVM (Electronic Voting Machine)', back: 'A portable electronic device used for recording votes. First used in India in 1982 in North Paravur, Kerala. It has two units: Control Unit (with presiding officer) and Ballot Unit (in voting compartment).' },
+  { id: 3, category: 'Key Terms', front: 'VVPAT', back: 'Voter Verifiable Paper Audit Trail - a machine attached to EVM that prints a paper slip showing the symbol and name of the candidate voted for. The slip is visible for 7 seconds before dropping into a sealed box.' },
+  { id: 4, category: 'Key Terms', front: 'NOTA', back: 'None Of The Above - an option on the EVM introduced in 2013 after Supreme Court ruling in PUCL vs Union of India. Allows voters to reject all candidates, though it doesn\'t affect election outcome.' },
+  { id: 5, category: 'Key Terms', front: 'EPIC', back: 'Electors Photo Identity Card - the voter ID card issued by ECI. It serves as proof of identity for voting and contains the voter\'s photo, name, address, and unique EPIC number.' },
+  { id: 6, category: 'Key Terms', front: 'Model Code of Conduct (MCC)', back: 'A set of guidelines issued by ECI for political parties and candidates to ensure free and fair elections. Comes into effect from the date of election announcement until results are declared.' },
+  { id: 7, category: 'Key Terms', front: 'First Past The Post (FPTP)', back: 'India\'s electoral system where the candidate with the most votes wins, even without an absolute majority. Each constituency elects one representative.' },
+  { id: 8, category: 'Key Terms', front: 'Delimitation', back: 'The process of fixing boundaries of territorial constituencies for elections based on the latest Census data. Done by an independent Delimitation Commission.' },
+  { id: 9, category: 'Key Terms', front: 'Anti-Defection Law', back: 'Added by the 52nd Amendment (1985) as the Tenth Schedule. It disqualifies legislators who defect from the party on whose ticket they were elected.' },
+  { id: 10, category: 'Key Terms', front: 'Indelible Ink', back: 'A semi-permanent purple ink applied to the left index finger after voting to prevent voter fraud. Contains silver nitrate and lasts 2-4 weeks.' },
+  { id: 11, category: 'Constitutional', front: 'Article 324', back: 'Vests the superintendence, direction, and control of elections in the Election Commission. This is the source of ECI\'s extensive powers.' },
+  { id: 12, category: 'Constitutional', front: 'Article 325', back: 'No person shall be excluded from electoral rolls on grounds of religion, race, caste, or sex. Ensures universal inclusion in voter lists.' },
+  { id: 13, category: 'Constitutional', front: 'Article 326', back: 'Provides that elections to Lok Sabha and State Assemblies shall be on the basis of adult suffrage — every citizen 18+ years can vote.' },
+  { id: 14, category: 'Constitutional', front: 'Article 327', back: 'Empowers Parliament to make laws regarding elections to Lok Sabha and State Legislatures, including preparation of electoral rolls.' },
+  { id: 15, category: 'Constitutional', front: 'Part XV of Constitution', back: 'Articles 324-329 deal with elections. This part establishes the Election Commission, defines suffrage, and provides for electoral laws.' },
+  { id: 16, category: 'Constitutional', front: '73rd Amendment (1992)', back: 'Gave constitutional status to Panchayati Raj institutions. Mandates elections every 5 years, reserves 33% seats for women, and establishes State Election Commissions.' },
+  { id: 17, category: 'Constitutional', front: '74th Amendment (1992)', back: 'Similar to 73rd but for urban local bodies (Municipalities). Mandates regular elections, women\'s reservation, and decentralized governance.' },
+  { id: 18, category: 'Constitutional', front: '61st Amendment (1988)', back: 'Reduced the voting age from 21 years to 18 years, significantly expanding the electorate and youth participation in democracy.' },
+  { id: 19, category: 'Process', front: 'Nomination Process', back: 'Candidates file nomination papers with the Returning Officer, pay a security deposit (₹25,000 for Lok Sabha), and need a proposer who is a registered voter in that constituency.' },
+  { id: 20, category: 'Process', front: 'Scrutiny of Nominations', back: 'The Returning Officer examines all nomination papers to check eligibility criteria. Candidates can be rejected if they don\'t meet age, citizenship, or other constitutional requirements.' },
+  { id: 21, category: 'Process', front: 'Withdrawal of Candidature', back: 'After nomination, candidates have a specific window to withdraw their candidacy. After this deadline, the final list of contestants is published.' },
+  { id: 22, category: 'Process', front: 'Campaigning Period', back: 'Political parties and candidates campaign through rallies, advertisements, social media, and door-to-door visits. Must follow MCC guidelines. Ends 48 hours before polling.' },
+  { id: 23, category: 'Process', front: 'Polling Day Procedures', back: 'Voters visit assigned polling stations, show ID, get ink marked, receive ballot/EVM access, cast vote in secret, and verify via VVPAT slip. Polling typically runs 7 AM to 6 PM.' },
+  { id: 24, category: 'Process', front: 'Counting Process', back: 'EVMs are stored securely after polling. On counting day, they are opened in presence of candidates/agents. Results are tallied round by round. VVPAT slips of 5 booths per constituency are also verified.' },
+  { id: 25, category: 'Bodies', front: 'Chief Election Commissioner (CEC)', back: 'Head of the Election Commission. Can only be removed through impeachment (like a Supreme Court judge). Currently appointed by the President based on a committee\'s recommendation.' },
+  { id: 26, category: 'Bodies', front: 'Returning Officer (RO)', back: 'An officer appointed for each constituency to manage the election process — from accepting nominations to declaring results. Usually a senior government official.' },
+  { id: 27, category: 'Bodies', front: 'Presiding Officer', back: 'In charge of a single polling station on election day. Manages the Control Unit of the EVM, verifies voter identity, and ensures orderly voting.' },
+  { id: 28, category: 'Bodies', front: 'Election Observers', back: 'Senior officials deputed by ECI to oversee elections in each constituency. They monitor fairness, handle complaints, and can order re-polling if irregularities are found.' },
+  { id: 29, category: 'Elections', front: 'Lok Sabha Elections', back: 'General elections for India\'s lower house of Parliament. 543 constituencies across India. Uses FPTP system. Term: 5 years. Voting age: 18+. Contest age: 25+.' },
+  { id: 30, category: 'Elections', front: 'Rajya Sabha Elections', back: 'Elections for the upper house. 238 members elected by State Assembly MLAs using proportional representation with single transferable vote. 12 nominated by President. Term: 6 years.' },
+  { id: 31, category: 'Elections', front: 'State Assembly Elections', back: 'Elections for State Legislative Assemblies (Vidhan Sabha). Each state has its own assembly with varying number of seats. Uses FPTP system. Term: 5 years.' },
+  { id: 32, category: 'Elections', front: 'Presidential Election', back: 'The President is elected by an Electoral College comprising elected members of both Houses of Parliament and State Assemblies. Uses proportional representation with single transferable vote.' },
+  { id: 33, category: 'Elections', front: 'By-Elections', back: 'Elections held to fill vacancies that arise between general elections due to death, resignation, or disqualification of a member. Must be held within 6 months of the vacancy.' },
+  { id: 34, category: 'Reforms', front: 'Voter Helpline (1950)', back: 'A toll-free number operated by ECI for voter-related queries, complaints about MCC violations, and election information. Also available as a mobile app.' },
+  { id: 35, category: 'Reforms', front: 'SVEEP', back: 'Systematic Voters\' Education and Electoral Participation — ECI\'s flagship program to increase voter awareness and participation through campaigns, partnerships, and grassroots outreach.' },
+];
+
+if (typeof module !== 'undefined') module.exports = FLASHCARD_DATA;
