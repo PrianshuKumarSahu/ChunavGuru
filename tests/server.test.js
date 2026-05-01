@@ -149,6 +149,11 @@ describe('TranslatorService', () => {
     );
   });
 
+  it('should support batch translation', async () => {
+    const results = await translatorService.translate(['Hello', 'World'], 'en');
+    assert.deepStrictEqual(results, ['Hello', 'World'], 'Batch English text should pass through');
+  });
+
   it('should list all 10 supported languages', () => {
     const languages = translatorService.getSupportedLanguages();
     const codes = Object.keys(languages);

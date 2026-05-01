@@ -56,19 +56,25 @@ class GeminiService {
       return this._fallbackResponse(userMessage);
     }
 
-    try {
-      const chat = this.model.startChat({
-        history: history.map(msg => ({
-          role: msg.role,
-          parts: [{ text: msg.text }],
-        })),
-      });
-      const result = await chat.sendMessage(userMessage);
-      return result.response.text();
-    } catch (error) {
-      console.error('[GeminiService] Chat error:', error.message);
-      return this._fallbackResponse(userMessage);
+    let lastError;
+    for (let i = 0; i < 3; i++) {
+      try {
+        const chat = this.model.startChat({
+          history: history.map(msg => ({
+            role: msg.role,
+            parts: [{ text: msg.text }],
+          })),
+        });
+        const result = await chat.sendMessage(userMessage);
+        return result.response.text();
+      } catch (error) {
+        lastError = error;
+        console.warn(`[GeminiService] Chat attempt ${i + 1} failed:`, error.message);
+        if (i < 2) await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Backoff
+      }
     }
+    console.error('[GeminiService] All attempts failed:', lastError.message);
+    return this._fallbackResponse(userMessage);
   }
 
   /** Provide helpful responses even without API access */

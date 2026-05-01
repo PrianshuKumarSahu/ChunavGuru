@@ -30,10 +30,18 @@ class TranslatorService {
     }
   }
 
-  /** Translate text to the target language */
-  async translate(text, targetLanguage) {
+  /**
+   * Translate text(s) to the target language.
+   * @param {string|string[]} contents - Single string or array of strings to translate.
+   * @param {string} targetLanguage - BCP-47 language code.
+   * @returns {Promise<string|string[]>} Translated text or array of translated texts.
+   */
+  async translate(contents, targetLanguage) {
+    const isArray = Array.isArray(contents);
+    const textArray = isArray ? contents : [contents];
+
     if (!targetLanguage || targetLanguage === 'en') {
-      return text; // No translation needed for English
+      return contents; // No translation needed for English
     }
 
     if (!SUPPORTED_LANGUAGES[targetLanguage]) {
@@ -44,21 +52,28 @@ class TranslatorService {
       throw new Error('Translation service not available');
     }
 
-    try {
-      const request = {
-        parent: `projects/${this.projectId}/locations/global`,
-        contents: [text],
-        mimeType: 'text/html',
-        targetLanguageCode: targetLanguage,
-        sourceLanguageCode: 'en',
-      };
+    let lastError;
+    for (let i = 0; i < 3; i++) {
+      try {
+        const request = {
+          parent: `projects/${this.projectId}/locations/global`,
+          contents: textArray,
+          mimeType: 'text/html',
+          targetLanguageCode: targetLanguage,
+          sourceLanguageCode: 'en',
+        };
 
-      const [response] = await this.client.translateText(request);
-      return response.translations[0].translatedText;
-    } catch (error) {
-      console.error('[TranslatorService] Translation error:', error.message);
-      throw error;
+        const [response] = await this.client.translateText(request);
+        const results = response.translations.map(t => t.translatedText);
+        
+        return isArray ? results : results[0];
+      } catch (error) {
+        lastError = error;
+        console.warn(`[TranslatorService] Translation attempt ${i + 1} failed:`, error.message);
+        if (i < 2) await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Exponential backoff
+      }
     }
+    throw lastError;
   }
 
   /** Get list of supported languages */

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: https://chunav-guru-409276447186.asia-south1.run.app/sitemap.xml

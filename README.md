@@ -25,12 +25,13 @@ ChunavGuru (Chunav = Election 🗳️ + Guru = Teacher 🎓) is a comprehensive,
 |---------|-------------|
 | 📖 **Election Guide** | Step-by-step walkthrough of the 10-stage Indian election process |
 | 📅 **Timeline** | Interactive history of Indian elections from 1950 to present |
-| 🧠 **Interactive Quiz** | 32+ questions across 10 categories with timer, scoring & confetti |
-| 🃏 **Flashcards** | 35 flip cards covering key terms, constitutional articles & processes |
-| 🤖 **AI Chatbot** | Ask anything about Indian elections — powered by Google Gemini |
-| 🌐 **Multi-Language** | Support for 10 Indian languages via Google Cloud Translation |
-| 🔊 **Text-to-Speech** | Listen to content in your language via Google Cloud TTS |
-| 🌗 **Dark/Light Mode** | Toggle between themes with persistent preference |
+| 🧠 **Interactive Quiz** | 30+ questions with timer, scoring & confetti (keyboard accessible) |
+| 🃏 **Flashcards** | 30+ flip cards covering key terms & processes with TTS support |
+| 🤖 **AI Chatbot** | Real-time election expert powered by Google Gemini 1.5 Flash |
+| 🌐 **Batch Translation**| High-efficiency translation into 10 Indian languages (optimized batching) |
+| 🔊 **Text-to-Speech** | Accessibility narration via Google Cloud TTS with fallback support |
+| 📱 **PWA Ready** | Web app manifest & mobile-optimized branding for home screen install |
+| 🌗 **Theming** | Glassmorphism-inspired Dark/Light mode with system persistence |
 
 ---
 
@@ -47,54 +48,58 @@ graph TD
     subgraph Client ["Frontend (Vanilla SPA)"]
         UI["Glassmorphism UI<br/>(HTML5, CSS3, JS)"]:::frontend
         Comps["Interactive Components<br/>(Quizzes, Timelines, Cards)"]:::frontend
+        Batch["Batch Translation Engine<br/>(High Efficiency)"]:::frontend
         UI <--> Comps
+        Comps <--> Batch
     end
 
     %% Backend Node
     subgraph Server ["Backend (Node.js/Express)"]
         API["RESTful API Gateway"]:::backend
-        Sec["Helmet & Rate Limiting"]:::backend
+        Sec["Security Middleware<br/>(CSP, XSS, Rate Limit)"]:::backend
+        Log["Structured Cloud Logger<br/>(JSON Logging)"]:::backend
         API <--> Sec
+        API <--> Log
     end
 
     %% Google Cloud Node
     subgraph GCP ["Google Cloud Ecosystem"]
-        Gemini["Google Gemini AI<br/>(Contextual Chatbot)"]:::cloud
-        Translate["Cloud Translation API<br/>(10 Languages)"]:::cloud
-        TTS["Cloud Text-to-Speech<br/>(Accessibility Narration)"]:::cloud
-        Run["Google Cloud Run<br/>(Containerized Hosting)"]:::cloud
+        Gemini["Google Gemini AI<br/>(Chatbot)"]:::cloud
+        Translate["Cloud Translation API<br/>(Batching)"]:::cloud
+        TTS["Cloud Text-to-Speech<br/>(A11y)"]:::cloud
+        Run["Google Cloud Run<br/>(Hosting)"]:::cloud
     end
 
     %% Connections
-    Client <==>|JSON via Fetch API| Server
+    Client <==>|Batch JSON| Server
     Server ==>|Auto-Scaling| Run
-    Server <==>|AI Prompts| Gemini
-    Server <==>|Localization| Translate
-    Server <==>|Audio Buffers| TTS
+    Server <==> Gemini
+    Server <==> Translate
+    Server <==> TTS
 ```
 
 ---
 
 ## 🔌 Google Services Integration
 
-| # | Service | Purpose |
-|---|---------|---------|
-| 1 | **Google Cloud Run** | Containerized deployment with auto-scaling |
-| 2 | **Google Gemini API** | AI chatbot for natural language election Q&A |
-| 3 | **Google Cloud Translation** | Multi-language support (10 Indian languages) |
-| 4 | **Google Cloud Text-to-Speech** | Audio narration for accessibility |
-| 5 | **Google Fonts** | Premium typography (Inter, Outfit) |
-| 6 | **Google Analytics** | Usage tracking and metrics |
+| # | Service | Purpose | Implementation Detail |
+|---|---------|---------|-----------------------|
+| 1 | **Google Cloud Run** | Containerized Hosting | Multi-stage build, non-root user, auto-scaling |
+| 2 | **Google Gemini API** | AI Election Guru | Gemini 1.5 Flash with custom system instructions |
+| 3 | **Google Cloud Translation** | Regional Accessibility | 10 Indian languages with efficient batch processing |
+| 4 | **Google Cloud Text-to-Speech** | Accessibility Narration | Natural voice synthesis for educational content |
+| 5 | **Google Fonts** | Premium Typography | Optimized loading for Inter and Outfit fonts |
+| 6 | **Structured Logging** | Cloud Observability | JSON logging compatible with GCP Logging |
 
 ---
 
 ## 💻 Tech Stack
 
-- **Frontend**: HTML5, CSS3 (custom design system), Vanilla JavaScript (ES6+)
-- **Backend**: Node.js 20, Express.js
-- **AI**: Google Gemini 2.0 Flash
-- **Cloud**: Google Cloud Run, Translation API, Text-to-Speech API
-- **Container**: Docker (multi-stage build, non-root user)
+- **Frontend**: HTML5 (Semantic), CSS3 (Custom Design System), Vanilla JavaScript (ES6+, Batching Engine)
+- **Backend**: Node.js 20, Express.js (High Performance)
+- **Security**: Helmet.js, CORS, Custom Regex Sanitizer, Rate Limiting
+- **Optimization**: Gzip Compression, Aggressive Static Caching, Translation Batching
+- **Cloud**: Google Cloud Run, Translation API, TTS API, Gemini API
 
 ---
 
@@ -151,37 +156,33 @@ gcloud run deploy chunav-guru \
 npm test
 ```
 
-Tests validate:
-- Quiz data integrity (32+ questions, 4 options each, valid answers)
-- Flashcard data completeness (35+ cards, all fields present)
-- Timeline chronological order (17 milestones)
-- Guide step structure (10 steps, details, fun facts)
+**49 Comprehensive Tests** validate:
+- **Data Integrity**: Quiz, Flashcard, Timeline, and Guide data structures.
+- **Security**: XSS sanitization, rate limiting, and security header presence.
+- **Accessibility**: WCAG 2.1 AA compliance, ARIA roles, skip links, and keyboard navigation.
+- **Infrastructure**: Dockerfile structure, package.json validity, and health check endpoints.
+- **Services**: Translator batching logic and Gemini AI fallback responses.
 
 ---
 
 ## ♿ Accessibility
 
-- WCAG 2.1 AA compliant
-- Semantic HTML5 with ARIA labels and roles
-- Keyboard navigation support throughout
-- Skip-to-content navigation link
-- High contrast text ratios
-- Focus indicators on all interactive elements
-- Text-to-Speech for all educational content
-- Multi-language support for regional accessibility
-- `prefers-reduced-motion` media query respected
+- **WCAG 2.1 AA Compliant**: Optimized for screen readers and assistive technology.
+- **Keyboard Navigation**: Full support for all interactive elements (Quizzes, Flashcards, Tabs).
+- **ARIA & Semantic HTML**: Proper roles, labels, `aria-live` regions, and `aria-current` state.
+- **Skip Navigation**: "Skip to main content" link for power users.
+- **Visuals**: Respects `prefers-reduced-motion`, high contrast ratios, and clear focus indicators.
+- **Localization**: Native support for 10 Indian languages with proper `lang` attribute switching.
 
 ---
 
 ## 🔒 Security
 
-- API keys stored in environment variables (never in code)
-- `.env` excluded via `.gitignore`
-- Helmet.js for security headers (CSP, X-Frame-Options, etc.)
-- Custom input sanitization (XSS prevention)
-- Rate limiting (100 req/min per IP)
-- Docker runs as non-root user
-- Input length limits on all endpoints
+- **Industrial Security**: High-strictness CSP, Referrer Policy, and non-root Docker user.
+- **Input Sanitization**: Custom recursive sanitizer blocking `<script>`, `on*` events, and `javascript:`/`data:` URLs.
+- **Rate Limiting**: 300 req/min (tightened due to batching efficiency).
+- **Static Analysis**: ESLint configuration with security-focused rules.
+- **Safe Keys**: No hardcoded credentials; fully environment-variable driven.
 
 ---
 

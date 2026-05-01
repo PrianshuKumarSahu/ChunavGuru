@@ -5,11 +5,15 @@ const compression = require('compression');
 const cors = require('cors');
 const securityMiddleware = require('./middleware/security');
 const RateLimiter = require('./middleware/rateLimit');
+const { log, requestLogger, SEVERITY } = require('./middleware/logger');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // --- Middleware ---
+
+// Log all incoming HTTP requests using structured format
+app.use(requestLogger());
 
 // Enable CORS for cross-origin API access
 app.use(cors({
@@ -32,13 +36,22 @@ app.use(compression({
 app.use(...securityMiddleware());
 app.use(express.json({ limit: '1mb' }));
 
-// Rate limiting: 2000 requests per minute for API routes (to accommodate individual translation requests)
-const apiLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 2000 });
+// Rate limiting: 300 requests per minute for API routes (optimized with translation batching)
+const apiLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 300 });
 app.use('/api', apiLimiter.middleware());
 
 // --- Static Files ---
 app.use(express.static(path.join(__dirname, '..', 'public'), {
-  maxAge: '1d',
+  maxAge: '1h',
+  setHeaders: (res, filePath) => {
+    if (filePath.match(/\.(jpg|jpeg|png|gif|svg|ico|json)$/)) {
+      // Long-term cache for immutable assets
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (filePath.match(/\.(js|css)$/)) {
+      // Mid-term cache for scripts and styles
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+    }
+  },
   etag: true,
 }));
 
@@ -64,24 +77,30 @@ app.get('*', (req, res) => {
 
 // --- Global Error Handler ---
 app.use((err, req, res, next) => {
-  console.error('[Server] Unhandled error:', err.message);
+  log(SEVERITY.ERROR, 'Unhandled application error', { error: err.message, stack: err.stack });
   res.status(500).json({ error: 'Internal server error' });
 });
 
 // --- Start Server ---
 const server = app.listen(PORT, () => {
+  log(SEVERITY.INFO, `ChunavGuru is running at http://localhost:${PORT}`);
   console.log(`\n🗳️  ChunavGuru is running at http://localhost:${PORT}\n`);
 });
 
 // --- Graceful Shutdown ---
 function shutdown(signal) {
+  log(SEVERITY.INFO, `Received ${signal}, starting graceful shutdown`);
   console.log(`\n${signal} received. Shutting down gracefully...`);
   apiLimiter.destroy();
   server.close(() => {
+    log(SEVERITY.INFO, 'Server closed completely');
     console.log('Server closed.');
     process.exit(0);
   });
-  setTimeout(() => process.exit(1), 5000);
+  setTimeout(() => {
+    log(SEVERITY.CRITICAL, 'Force closing after timeout');
+    process.exit(1);
+  }, 5000);
 }
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));

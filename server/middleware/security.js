@@ -39,8 +39,10 @@ function sanitizeObject(obj) {
   for (const key in obj) {
     if (typeof obj[key] === 'string') {
       obj[key] = obj[key]
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove <script> tags
+        .replace(/on\w+\s*=\s*["'][^"']*["']/gi, '') // Remove event handlers
+        .replace(/javascript:/gi, '[removed]') // Block javascript: protocol
+        .replace(/data:/gi, '[removed]') // Block data: protocol
         .trim()
         .slice(0, 5000); // Limit input length
     } else if (typeof obj[key] === 'object' && obj[key] !== null) {

@@ -84,11 +84,17 @@
   function updateActiveNav(page) {
     // Sidebar nav
     document.querySelectorAll('.sidebar__link').forEach(link => {
-      link.classList.toggle('active', link.dataset.page === page);
+      const isActive = link.dataset.page === page;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     });
     // Mobile nav
     document.querySelectorAll('.mobile-nav__link').forEach(link => {
-      link.classList.toggle('active', link.dataset.page === page);
+      const isActive = link.dataset.page === page;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     });
   }
 
@@ -144,8 +150,7 @@
   }
 
   async function translateCurrentPage(lang) {
-    // Translate visible text elements
-    const elements = document.querySelectorAll(
+    const elements = Array.from(document.querySelectorAll(
       '.dashboard-hero__title, .dashboard-hero__subtitle, .stat-card__label, ' +
       '.feature-card__title, .feature-card__desc, ' +
       '.guide-header__title, .guide-header__subtitle, .guide-step__title, .guide-step__summary, .guide-step__detail-item, ' +
@@ -154,18 +159,24 @@
       '.flashcards-header__title, .flashcard__text, ' +
       '.chat-header__title, .chat-header__subtitle, .chat-suggestion-btn, .section-badge, ' +
       '.sidebar__link-text, #header-title'
-    );
+    ));
 
-    for (const el of elements) {
+    const textsToTranslate = elements.map(el => {
       if (!el.dataset.originalText) {
         el.dataset.originalText = el.innerHTML;
       }
-      try {
-        const translated = await window.translateClient.translate(el.dataset.originalText);
-        el.innerHTML = translated;
-      } catch (e) {
-        // Keep original text on failure
-      }
+      return el.dataset.originalText;
+    });
+
+    try {
+      const translatedTexts = await window.translateClient.translate(textsToTranslate);
+      elements.forEach((el, i) => {
+        el.innerHTML = translatedTexts[i];
+      });
+      // Update HTML lang attribute for accessibility and SEO
+      document.documentElement.setAttribute('lang', lang);
+    } catch (e) {
+      console.error('[App] Translation batch failed:', e.message);
     }
   }
 
