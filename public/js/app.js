@@ -52,6 +52,7 @@
 
     // Update page title
     document.getElementById('header-title').textContent = PAGE_TITLES[page];
+    document.getElementById('header-title').dataset.originalText = PAGE_TITLES[page];
     document.title = `${PAGE_TITLES[page]} — ChunavGuru`;
 
     // Render page content
@@ -151,16 +152,17 @@
       '.timeline-header__title, .timeline-header__subtitle, .timeline-item__title, .timeline-item__desc, ' +
       '.quiz-header__title, .quiz-question__text, .quiz-option span, ' +
       '.flashcards-header__title, .flashcard__text, ' +
-      '.chat-header__title, .chat-header__subtitle, .chat-suggestion-btn, .section-badge'
+      '.chat-header__title, .chat-header__subtitle, .chat-suggestion-btn, .section-badge, ' +
+      '.sidebar__link-text, #header-title'
     );
 
     for (const el of elements) {
       if (!el.dataset.originalText) {
-        el.dataset.originalText = el.textContent;
+        el.dataset.originalText = el.innerHTML;
       }
       try {
         const translated = await window.translateClient.translate(el.dataset.originalText);
-        el.textContent = translated;
+        el.innerHTML = translated;
       } catch (e) {
         // Keep original text on failure
       }

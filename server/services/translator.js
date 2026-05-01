@@ -48,7 +48,7 @@ class TranslatorService {
       const request = {
         parent: `projects/${this.projectId}/locations/global`,
         contents: [text],
-        mimeType: 'text/plain',
+        mimeType: 'text/html',
         targetLanguageCode: targetLanguage,
         sourceLanguageCode: 'en',
       };
