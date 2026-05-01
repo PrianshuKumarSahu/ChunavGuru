@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const compression = require('compression');
+const cors = require('cors');
 const securityMiddleware = require('./middleware/security');
 const RateLimiter = require('./middleware/rateLimit');
 
@@ -8,6 +10,25 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // --- Middleware ---
+
+// Enable CORS for cross-origin API access
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  maxAge: 86400, // Cache preflight for 24h
+}));
+
+// Enable gzip compression for all responses
+app.use(compression({
+  level: 6,
+  threshold: 1024,
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  },
+}));
+
 app.use(...securityMiddleware());
 app.use(express.json({ limit: '1mb' }));
 
@@ -65,3 +86,6 @@ function shutdown(signal) {
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT', () => shutdown('SIGINT'));
+
+// Export for testing
+module.exports = app;

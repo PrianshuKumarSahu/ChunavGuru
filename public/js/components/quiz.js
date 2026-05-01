@@ -114,16 +114,22 @@ class QuizComponent {
 
     const letters = ['A', 'B', 'C', 'D'];
     const optionsHTML = q.options.map((opt, idx) =>
-      `<button class="quiz-option" data-index="${idx}" id="quiz-opt-${idx}">
+      `<button class="quiz-option" data-index="${idx}" id="quiz-opt-${idx}" tabindex="0" role="option" aria-label="Option ${letters[idx]}: ${opt}">
         <span class="quiz-option__letter">${letters[idx]}</span>
         <span>${opt}</span>
       </button>`
     ).join('');
     document.getElementById('quiz-options').innerHTML = optionsHTML;
 
-    // Bind option clicks
+    // Bind option clicks and keyboard events
     document.querySelectorAll('.quiz-option').forEach(btn => {
       btn.addEventListener('click', () => this._selectAnswer(parseInt(btn.dataset.index)));
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this._selectAnswer(parseInt(btn.dataset.index));
+        }
+      });
     });
 
     // Start timer

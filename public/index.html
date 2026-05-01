@@ -19,14 +19,7 @@
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/animations.css">
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
+
 </head>
 <body>
   <!-- Skip Navigation for Accessibility -->
@@ -102,7 +95,7 @@
       <!-- Page Content -->
       <main class="content" id="main-content" role="main">
         <!-- Pages are dynamically rendered here -->
-        <div id="page-container" class="page-container"></div>
+        <div id="page-container" class="page-container" aria-live="polite" aria-atomic="false"></div>
       </main>
     </div>
 

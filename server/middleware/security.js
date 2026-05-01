@@ -11,14 +11,18 @@ function securityMiddleware() {
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
           styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
           fontSrc: ["'self'", "https://fonts.gstatic.com"],
           imgSrc: ["'self'", "data:", "https:"],
-          connectSrc: ["'self'", "https://www.google-analytics.com"],
+          connectSrc: ["'self'", "https://generativelanguage.googleapis.com"],
+          mediaSrc: ["'self'", "blob:"],
+          objectSrc: ["'none'"],
+          frameAncestors: ["'none'"],
         },
       },
       crossOriginEmbedderPolicy: false,
+      referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     }),
     // Input sanitization middleware
     (req, res, next) => {
