@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 8080;
 app.use(...securityMiddleware());
 app.use(express.json({ limit: '1mb' }));
 
-// Rate limiting: 100 requests per minute for API routes
-const apiLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 100 });
+// Rate limiting: 2000 requests per minute for API routes (to accommodate individual translation requests)
+const apiLimiter = new RateLimiter({ windowMs: 60000, maxRequests: 2000 });
 app.use('/api', apiLimiter.middleware());
 
 // --- Static Files ---
