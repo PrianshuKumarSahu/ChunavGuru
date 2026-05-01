@@ -1,6 +1,8 @@
 # 🗳️ ChunavGuru — Interactive Indian Election Education Assistant
 
-> **An AI-powered web application that helps users understand the Indian election process, timelines, and steps in an interactive and easy-to-follow way.**
+> **ChunavGuru** is a state-of-the-art, AI-driven educational platform designed to demystify the Indian electoral process. Built for the Virtual Prompt War competition, this platform bridges the gap between complex constitutional frameworks and citizen awareness through an interactive, highly accessible, and gamified web experience. 
+> 
+> Leveraging the power of **Google Cloud Services** and the **Gemini 1.5 Flash AI model**, ChunavGuru delivers real-time, context-aware electoral guidance, seamless multi-language translation across 10 regional dialects, and native text-to-speech accessibility—all wrapped in a premium, glassmorphism-inspired UI.
 
 ![Node.js](https://img.shields.io/badge/Node.js-20-green)
 ![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Run-blue)
@@ -34,19 +36,41 @@ ChunavGuru (Chunav = Election 🗳️ + Guru = Teacher 🎓) is a comprehensive,
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────┐
-│                Frontend (SPA)                    │
-│  HTML5 + CSS3 + Vanilla JS                       │
-│  Glassmorphism UI · Animations · Responsive      │
-├─────────────────────────────────────────────────┤
-│              Backend (Express.js)                │
-│  REST API · Rate Limiting · Security Headers     │
-├─────────────────────────────────────────────────┤
-│           Google Cloud Services                  │
-│  Gemini AI · Cloud Translation · Cloud TTS       │
-│  Cloud Run · Google Fonts · Google Analytics     │
-└─────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    %% Styling
+    classDef frontend fill:#1E293B,stroke:#38BDF8,stroke-width:2px,color:#fff
+    classDef backend fill:#0F172A,stroke:#10B981,stroke-width:2px,color:#fff
+    classDef cloud fill:#0284C7,stroke:#bae6fd,stroke-width:2px,color:#fff
+    
+    %% Frontend Node
+    subgraph Client ["Frontend (Vanilla SPA)"]
+        UI["Glassmorphism UI<br/>(HTML5, CSS3, JS)"]:::frontend
+        Comps["Interactive Components<br/>(Quizzes, Timelines, Cards)"]:::frontend
+        UI <--> Comps
+    end
+
+    %% Backend Node
+    subgraph Server ["Backend (Node.js/Express)"]
+        API["RESTful API Gateway"]:::backend
+        Sec["Helmet & Rate Limiting"]:::backend
+        API <--> Sec
+    end
+
+    %% Google Cloud Node
+    subgraph GCP ["Google Cloud Ecosystem"]
+        Gemini["Google Gemini AI<br/>(Contextual Chatbot)"]:::cloud
+        Translate["Cloud Translation API<br/>(10 Languages)"]:::cloud
+        TTS["Cloud Text-to-Speech<br/>(Accessibility Narration)"]:::cloud
+        Run["Google Cloud Run<br/>(Containerized Hosting)"]:::cloud
+    end
+
+    %% Connections
+    Client <==>|JSON via Fetch API| Server
+    Server ==>|Auto-Scaling| Run
+    Server <==>|AI Prompts| Gemini
+    Server <==>|Localization| Translate
+    Server <==>|Audio Buffers| TTS
 ```
 
 ---
