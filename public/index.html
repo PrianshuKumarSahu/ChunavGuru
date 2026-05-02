@@ -24,7 +24,27 @@
   <link rel="stylesheet" href="/css/components.css">
   <link rel="stylesheet" href="/css/animations.css">
 
+  <!-- Data Scripts (Deferred) -->
+  <script src="/js/data/quizData.js" defer></script>
+  <script src="/js/data/flashcardData.js" defer></script>
+  <script src="/js/data/timelineData.js" defer></script>
+  <script src="/js/data/guideData.js" defer></script>
 
+  <!-- Service Scripts (Deferred) -->
+  <script src="/js/services/api.js" defer></script>
+  <script src="/js/services/tts.js" defer></script>
+  <script src="/js/services/translate.js" defer></script>
+
+  <!-- Component Scripts (Deferred) -->
+  <script src="/js/components/dashboard.js" defer></script>
+  <script src="/js/components/guide.js" defer></script>
+  <script src="/js/components/timeline.js" defer></script>
+  <script src="/js/components/quiz.js" defer></script>
+  <script src="/js/components/flashcards.js" defer></script>
+  <script src="/js/components/chatbot.js" defer></script>
+
+  <!-- Main App Controller (Deferred) -->
+  <script src="/js/app.js" defer></script>
 </head>
 <body>
   <!-- Skip Navigation for Accessibility -->
@@ -117,27 +137,5 @@
     <!-- Overlay for mobile sidebar -->
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
   </div>
-
-  <!-- Data Scripts -->
-  <script src="/js/data/quizData.js"></script>
-  <script src="/js/data/flashcardData.js"></script>
-  <script src="/js/data/timelineData.js"></script>
-  <script src="/js/data/guideData.js"></script>
-
-  <!-- Service Scripts -->
-  <script src="/js/services/api.js"></script>
-  <script src="/js/services/tts.js"></script>
-  <script src="/js/services/translate.js"></script>
-
-  <!-- Component Scripts -->
-  <script src="/js/components/dashboard.js"></script>
-  <script src="/js/components/guide.js"></script>
-  <script src="/js/components/timeline.js"></script>
-  <script src="/js/components/quiz.js"></script>
-  <script src="/js/components/flashcards.js"></script>
-  <script src="/js/components/chatbot.js"></script>
-
-  <!-- Main App -->
-  <script src="/js/app.js"></script>
 </body>
 </html>

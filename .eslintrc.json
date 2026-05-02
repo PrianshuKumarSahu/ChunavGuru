@@ -11,16 +11,19 @@
   "rules": {
     "no-unused-vars": "warn",
     "no-console": "off",
-    "eqeqeq": "error",
+    "eqeqeq": ["error", "always"],
     "no-eval": "error",
     "no-implied-eval": "error",
     "no-new-func": "error",
-    "prefer-const": "warn",
-    "no-var": "warn",
+    "prefer-const": "error",
+    "no-var": "error",
     "curly": "error",
     "no-throw-literal": "error",
     "no-self-compare": "error",
-    "no-template-curly-in-string": "warn"
+    "no-template-curly-in-string": "error",
+    "strict": ["error", "global"],
+    "no-return-await": "error",
+    "prefer-template": "error"
   },
   "ignorePatterns": ["node_modules/", "tests/"]
 }

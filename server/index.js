@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Main entry point for the ChunavGuru Express server.
+ * Handles middleware configuration, security, routing, and graceful shutdown.
+ */
+"use strict";
+
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -56,7 +62,14 @@ app.use('/api/chat', require('./routes/chat'));
 app.use('/api/translate', require('./routes/translate'));
 app.use('/api/tts', require('./routes/tts'));
 
-// Health check endpoint (used by Cloud Run & Docker healthcheck)
+/**
+ * GET /api/health
+ * Health check endpoint for Cloud Run and Docker container probes.
+ * @name HealthCheck
+ * @function
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'healthy',
@@ -72,6 +85,14 @@ app.get('*', (req, res) => {
 });
 
 // --- Global Error Handler ---
+/**
+ * Global error handling middleware.
+ * Catches all unhandled exceptions and returns a standardized 500 response.
+ * @param {Error} err - The error object.
+ * @param {express.Request} req - The express request object.
+ * @param {express.Response} res - The express response object.
+ * @param {express.NextFunction} next - The next middleware function.
+ */
 app.use((err, req, res, next) => {
   console.error('[Server] Unhandled error:', err.message);
   res.status(500).json({ error: 'Internal server error' });
@@ -83,6 +104,12 @@ const server = app.listen(PORT, () => {
 });
 
 // --- Graceful Shutdown ---
+/**
+ * Handles graceful shutdown of the server on termination signals.
+ * Destroys rate limiters and closes active HTTP connections.
+ * @param {string} signal - The termination signal received (e.g., 'SIGTERM', 'SIGINT').
+ * @returns {void}
+ */
 function shutdown(signal) {
   console.log(`\n${signal} received. Shutting down gracefully...`);
   apiLimiter.destroy();
